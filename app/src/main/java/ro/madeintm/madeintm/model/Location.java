@@ -5,7 +5,7 @@ import com.firebase.client.DataSnapshot;
 /**
  * Created by validraganescu on 21/05/16.
  */
-public class Location {
+public class Location extends Model {
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";

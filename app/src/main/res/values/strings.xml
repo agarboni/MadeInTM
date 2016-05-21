@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MadeInTM</string>
     <string name="accessToken" translatable="false">pk.eyJ1IjoidmFsaS1kcmFnYW5lc2N1IiwiYSI6ImNpb2d1dzhqbjAwNTV2Ymo3OTVmZzU0OGkifQ.fJmtR3BLYncAL379msIv9Q</string>
+    <string name="title_activity_navigation">@string/app_name</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

@@ -5,7 +5,7 @@ import com.firebase.client.DataSnapshot;
 /**
  * Created by validraganescu on 21/05/16.
  */
-public class Link {
+public class Link extends Model{
 
     private String url;
 

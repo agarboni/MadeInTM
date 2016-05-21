@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ro.madeintm.madeintm">
+    package="ro.madeintm.madeintm" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -13,14 +13,30 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".controller.MainActivity">
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".controller.NavigationActivity"
+            android:label="@string/title_activity_navigation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".controller.StoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".controller.CategorySelectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".controller.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".controller.StoryListActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
 
@@ -28,6 +44,5 @@
             android:name="io.fabric.ApiKey"
             android:value="2d592cb219274a17ccd2a082315dedb892822958" />
     </application>
-
 
 </manifest>

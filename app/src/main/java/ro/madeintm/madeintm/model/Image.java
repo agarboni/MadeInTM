@@ -5,7 +5,7 @@ import com.firebase.client.DataSnapshot;
 /**
  * Created by validraganescu on 21/05/16.
  */
-public class Image {
+public class Image extends Model{
 
     public static final String ALT_TEXT = "alt-text";
     public static final String URL = "url";

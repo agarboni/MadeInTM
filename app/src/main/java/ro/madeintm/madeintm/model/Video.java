@@ -5,7 +5,7 @@ import com.firebase.client.DataSnapshot;
 /**
  * Created by validraganescu on 21/05/16.
  */
-public class Video {
+public class Video extends Model{
     public static final String URL = "url";
 
     private String url;

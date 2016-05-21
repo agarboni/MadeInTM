@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by validraganescu on 21/05/16.
  */
-public class Story {
+public class Story extends Model {
     public static final String AUTHOR = "author";
     public static final String DATE = "date";
     public static final String ICON = "icon";
@@ -22,15 +22,15 @@ public class Story {
     public static final String VIDEOS = "videos";
     public static final String LINKS = "links";
 
-    private String author;
-    private String date;
-    private String icon;
+    private String author = "";
+    private String date = "";
+    private String icon = "";
     private List<Image> images = new ArrayList<>();
     private List<Location> locations = new ArrayList<>();
     private List<String> tags = new ArrayList<>();
-    private String tagLine;
-    private String text;
-    private String title;
+    private String tagLine = "";
+    private String text = "";
+    private String title = "";
     private List<Video> videos = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
 
