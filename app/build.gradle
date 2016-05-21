@@ -47,4 +47,7 @@ dependencies {
     compile('com.mapbox.mapboxsdk:mapbox-android-sdk:4.0.1@aar') {
         transitive = true;
     }
+
+    compile 'com.karumi:dexter:2.2.2'
+    compile 'com.google.android.gms:play-services-location:9.0.0'
 }
