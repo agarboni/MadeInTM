@@ -1,4 +1,4 @@
-package ro.madeintm.madeintm;
+package ro.madeintm.madeintm.controller;
 
 import android.graphics.Color;
 import android.location.Location;
@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.mapbox.directions.DirectionsCriteria;
 import com.mapbox.directions.MapboxDirections;
 import com.mapbox.directions.service.models.DirectionsResponse;
 import com.mapbox.directions.service.models.DirectionsRoute;
 import com.mapbox.directions.service.models.Waypoint;
-import com.mapbox.mapboxsdk.annotations.Polyline;
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -21,14 +25,15 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
-import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+import ro.madeintm.madeintm.R;
+import ro.madeintm.madeintm.model.Story;
 
 public class MainActivity extends LocationAwareActivity {
 
@@ -46,11 +51,41 @@ public class MainActivity extends LocationAwareActivity {
 
     }
 
+    private void getStories() {
+        myFirebaseRef.child("stories").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<Story> stories = new ArrayList<>();
+                Log.d(TAG, "Firebase result: " + snapshot.getChildrenCount());
+                for (DataSnapshot storiesSnapShot : snapshot.getChildren()){
+                    Story story = new Story(storiesSnapShot);
+                    stories.add(story);
+                }
+                Log.d(TAG, "We have " + stories.size() + " stories");
+
+                addToMap(stories);
+
+            }
+
+            @Override public void onCancelled(FirebaseError error) {
+                Log.d(TAG, "Firebase error: " + error.getMessage());
+            }
+
+        });
+    }
+
+
     private void addMapBoxConfig(Bundle savedInstanceState) {
         mapView = (MapView) findViewById(R.id.mapboxMapView);
         mapView.setAccessToken(getString(R.string.accessToken));
         mapView.onCreate(savedInstanceState);
 
+        createMap();
+
+    }
+
+    private void createMap() {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
@@ -61,17 +96,24 @@ public class MainActivity extends LocationAwareActivity {
                     setCamera(mapboxMap, myLocation.getLatitude(), myLocation.getLongitude());
                 }
                 mMapBoxMap = mapboxMap;
-                getRoute();
+
+//                getRoute();
+                getStories();
             }
         });
-
     }
 
     private void setCamera(MapboxMap mapboxMap, double lat, double lon) {
-        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15)
+        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(13)
                 .target(new LatLng(lat, lon))
                 .build();
         mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 2000, null);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        super.onLocationChanged(location);
+
     }
 
     private void getRoute() {
@@ -117,14 +159,30 @@ public class MainActivity extends LocationAwareActivity {
             mMapBoxMap.addPolyline(new PolylineOptions()
                     .add(points)
                     .color(Color.parseColor("#edec09"))
-                    .width(10));
-
+                    .width(5));
 
         }
 
         @Override
         public void onFailure(Throwable t) {
             Log.d(TAG, "Route failed: " + t.getMessage());
+        }
+    }
+
+    private void addToMap(List<Story> stories) {
+        if (mMapBoxMap == null){
+            createMap();
+        } else {
+            mMapBoxMap.removeAnnotations();
+            for (Story story : stories) {
+                for (ro.madeintm.madeintm.model.Location location : story.getLocations()) {
+                    mMapBoxMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(location.getLat(), location.getLon()))
+                            .title(story.getTitle())
+                            .snippet(story.getTagLine()));
+                }
+
+            }
         }
     }
 

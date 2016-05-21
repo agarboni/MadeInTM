@@ -1,4 +1,4 @@
-package ro.madeintm.madeintm;
+package ro.madeintm.madeintm.controller;
 
 import android.Manifest;
 import android.content.IntentSender;
@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,14 +32,13 @@ import com.karumi.dexter.listener.single.PermissionListener;
 /**
  * Created by validraganescu on 21/05/16.
  */
-public class LocationAwareActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+public class LocationAwareActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     public static final String TAG = "Location";
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
-    private boolean mRequestingLocationUpdates = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -140,7 +138,7 @@ public class LocationAwareActivity extends AppCompatActivity implements GoogleAp
                             .withMessage("Stories are displayed on a map and we need your location to provide propper guiding.")
                             .withButtonText(android.R.string.ok)
                             .build();
-            Dexter.checkPermission(dialogPermissionListener, Manifest.permission.CAMERA);
+            Dexter.checkPermission(dialogPermissionListener, Manifest.permission.ACCESS_FINE_LOCATION);
 
         } else {
             Log.d(TAG, "Permission granted");

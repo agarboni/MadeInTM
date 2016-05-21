@@ -1,7 +1,8 @@
-package ro.madeintm.madeintm;
+package ro.madeintm.madeintm.controller;
 
 import android.app.Application;
 
+import com.firebase.client.Firebase;
 import com.karumi.dexter.Dexter;
 
 /**
@@ -14,5 +15,7 @@ public class MadeInTMApplication extends Application {
         super.onCreate();
 
         Dexter.initialize(getApplicationContext());
+        Firebase.setAndroidContext(this);
+
     }
 }
